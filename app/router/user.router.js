@@ -14,11 +14,11 @@ module.exports = function(app) {
    
     app.post('/itasset/auth/signin', controller.signin);
    
-    app.get('/itasset/dashboard/v1/operate/:table/:action/:roleId', authJwt.verifyToken, checkAction.tableActionAccessCheck, controller.readUsers) // read All User
+    app.get('/itasset/v1/:table/:action/:roleId', authJwt.verifyToken, checkAction.tableActionAccessCheck, controller.readUsers) // read All User
 
-    app.get('/itasset/dashboard/v1/operate/:table/:action/:roleId/:userId', authJwt.verifyToken, checkAction.tableActionAccessCheck, controller.readUser) //read specific user
+    app.get('/itasset/v1/:table/:action/:roleId/:userId', authJwt.verifyToken, checkAction.tableActionAccessCheck, controller.readUser) //read specific user
     
-    app.put('/itasset/dashboard/v1/operate/:table/:action/:roleId/:userId', authJwt.verifyToken,checkAction.tableActionAccessCheck, controller.updateUser);
+    app.put('/itasset/v1/:table/:action/:roleId/:userId', authJwt.verifyToken,checkAction.tableActionAccessCheck, controller.updateUser);
 	
-	app.delete('/itasset/dashboard/v1/operate/:table/:action/:roleId/:userId', authJwt.verifyToken, checkAction.tableActionAccessCheck, controller.deleteUser)
+	app.delete('/itasset/v1/:table/:action/:roleId/:userId', authJwt.verifyToken, checkAction.tableActionAccessCheck, controller.deleteUser)
 }

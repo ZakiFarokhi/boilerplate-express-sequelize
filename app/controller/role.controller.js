@@ -1,5 +1,6 @@
 const db = require('../config/db.config')
 const Role = db.role
+const Op = db.Sequelize.Op
 
 exports.createRole = (req, res) => {
     Role.create({
@@ -72,7 +73,8 @@ exports.updateRole = (req, res) => {
 exports.deleteRole = (req, res) => {
     Role.findOne({
         where : {
-            role_id : req.params.roleId
+            role_id : req.params.roleId,
+            [Op.not]:{role_id : 1}
         }
     }).then(role => {
         role.destroy().then(roleDestroyed => {

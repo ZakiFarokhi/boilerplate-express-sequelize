@@ -2,7 +2,6 @@ const db = require('../config/db.config')
 const config = require('../config/config');
 const User = db.user
 const Role = db.role
-
 const Op = db.Sequelize.Op
 var jwt = require('jsonwebtoken')
 var bcrypt = require('bcryptjs')
@@ -29,41 +28,47 @@ exports.createUser = (req, res) => { //create User or signup
         })
     })
 }
+
 exports.createSuperAdmin = (req, res) => {
     var isSuperAdmin = Boolean
     User.count().then( userCount => {
-        
         userCount == 0 ? isSuperAdmin = true : isSuperAdmin = false;
         if(isSuperAdmin){
-            User.create({
-                name : req.body.name,
-                email : req.body.email,
-                password : bcrypt.hashSync(req.body.password, 10),
-                startDate : null,
-                endDate : null
-            }).then(user => {
-
-                return Role.findOne({
-                    where: {
-                        role_id: '1'
-                    }
-                }).then(role => {
-                    user.setRole(role);
+            Role.findOne({
+                attributes: ['role_id', 'name'],
+                where: {
+                    role_id : 1
+                }
+            }).then(role => {
+                User.create({
+                    name : req.body.name,
+                    email : req.body.email,
+                    password : bcrypt.hashSync(req.body.password, 10),
+                    startDate : null,
+                    endDate : null,
+                    role_id: role.role_id
+                },).then(user => {
                     res.status(200).json({
-                        "message" : "user created",
-                        "data" : user
+                        "message": "user created",
+                        "data": user, 
+                        "role": role
+                    })
+                }).catch(error =>{
+                    res.status(500).json({
+                        "message": "user note create",
+                        "data": error
                     })
                 })
             }).catch(error => {
                 res.status(500).json({
-                    "message": "cannot create user",
-                    "data" : error
+                    "message": "cannot find Super Admin role",
+                    "data": error
                 })
             })
         }
     }).catch(error => {
         res.status(500).json({
-            "message": "cannot create user",
+            "message": "cannot create super admin",
             "data" : error
         })
     })

@@ -19,9 +19,10 @@ app.get('/', function(req,res){
 	res.send('hello ITAsset On Express JS')
 })
 
-db.sequelize.sync({force: true}).then(() => {
-    console.log('Drop and Resync with { force: true }');
-    initial.initial();
+const dropSync = true
+db.sequelize.sync({force: dropSync}).then(() => {
+    console.log('Drop and Resync with { force: false }');
+    dropSync? initial.initial():console.log('finish without drop and sync table')
     console.log('finish');
 });
 
