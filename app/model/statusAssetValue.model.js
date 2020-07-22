@@ -1,22 +1,22 @@
 module.exports = (sequelize, Sequelize) => {
-    const SpecificationAsset = sequelize.define('specificationAsset', {
+    const statusAssetValue = sequelize.define('statusAssetValue', {
         id: {
             type: Sequelize.INTEGER,
             primaryKey: true,
             autoIncrement: true
         },
-        name: {
-            type: Sequelize.STRING,
-        },
-        dataType: {
+        value: {
             type: Sequelize.STRING
         },
-        isRequired: {
-            type: Sequelize.BOOLEAN
+        statusAssetFieldId: {
+            type: Sequelize.INTEGER
+        },
+        logAssetId: {
+            type: Sequelize.INTEGER
         },
         createdBy: {
             type: Sequelize.INTEGER
         }
     })
-    return SpecificationAsset
+    return statusAssetValue
 }

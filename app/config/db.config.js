@@ -19,18 +19,30 @@ const db ={};
 db.Sequelize = Sequelize
 db.sequelize = sequelize
 
+//connecting config with model schema
 db.user = require('../model/user.model')(sequelize, Sequelize)
 db.role = require('../model/role.model')(sequelize, Sequelize)
 db.permission = require('../model/permission.model')(sequelize, Sequelize)
+db.employee = require('../model/masterEmployee.model')(sequelize, Sequelize)
+db.statusEmployee = require('../model/statusEmployee.model')(sequelize, Sequelize)
 
 db.categoryAsset = require('../model/categoryAsset.model')(sequelize, Sequelize)
 db.specificationAsset = require('../model/specificationAsset.model')(sequelize, Sequelize)
 db.specificationAssetValue = require('../model/specificationAssetValue.model')(sequelize, Sequelize)
-db.ownership = require('../model/ownership.model')(sequelize, Sequelize)
-db.ownershipArea = require('../model/ownershipArea.model')(sequelize, Sequelize)
+db.masterAsset = require('../model/masterAsset.model')(sequelize, Sequelize)
 
-db.role.hasMany(db.user, {foreignKey:'role_id'})
-db.user.belongsTo(db.role, {foreignKey: 'user_id'})
+db.site = require('../model/site.model')(sequelize, Sequelize)
+db.location = require('../model/location.model')(sequelize, Sequelize)
+db.department = require('../model/department.model')(sequelize, Sequelize)
+
+db.statusAsset = require('../model/statusAsset.model')(sequelize, Sequelize)
+db.statusAssetField = require('../model/statusAssetField.model')(sequelize, Sequelize)
+db.statusAssetValue = require('../model/statusAssetValue.model')(sequelize, Sequelize)
+db.logAsset = require('../model/logAsset.model')(sequelize, Sequelize)
+
+//initialize association
+db.role.hasMany(db.user)
+db.user.belongsTo(db.role )
 
 const roleToPermission = sequelize.define('roleToPermission', {
     id: {
@@ -45,6 +57,9 @@ db.role.belongsToMany(db.permission,
 db.permission.belongsToMany(db.role,
     { through: roleToPermission, foreignKey: 'permission_id'})
 
+db.statusEmployee.hasMany(db.employee, {foreignKey: 'statusEmployeeId'})    
+db.employee.belongsTo(db.statusEmployee )
+
 const categoryToSpecification = sequelize.define('categoryToSpecification',{
     id: {
         type: Sequelize.INTEGER,
@@ -58,10 +73,13 @@ db.categoryAsset.belongsToMany(db.specificationAsset,
 db.specificationAsset.belongsToMany(db.categoryAsset,{
     through:categoryToSpecification, foreignKey: 'specificationAsset_id'})
 
-db.specificationAsset.hasMany(db.specificationAssetValue,{foreignKey: 'specificationAsset_id'})
-db.specificationAssetValue.belongsTo(db.specificationAsset,{foreignKey: 'specificationAssetValue_id'})
+db.specificationAsset.hasMany(db.specificationAssetValue)
+db.specificationAssetValue.belongsTo(db.specificationAsset)
 
-db.ownership.hasMany(db.ownershipArea, {foreignKey: 'ownersip_id'})
-db.ownershipArea.belongsTo(db.ownership, {foreignKey: 'ownershipArea_id'})
+db.statusAsset.hasMany(db.masterAsset)
+db.masterAsset.belongsTo(db.statusAsset)
+db.categoryAsset.hasMany(db.masterAsset)
+db.masterAsset.belongsTo(db.categoryAsset)
+
 
 module.exports = db;

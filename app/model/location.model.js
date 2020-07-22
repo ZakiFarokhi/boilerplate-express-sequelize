@@ -1,6 +1,6 @@
 module.exports = (sequelize, Sequelize) => {
-    const OwnershipArea = sequelize.define('ownershipArea',{
-        ownershipArea_id: {
+    const Location = sequelize.define('location', {
+        id: {
             type: Sequelize.INTEGER,
             primaryKey: true,
             autoIncrement: true
@@ -10,7 +10,10 @@ module.exports = (sequelize, Sequelize) => {
         },
         description: {
             type: Sequelize.STRING
+        },
+        createdBy: {
+            type: Sequelize.INTEGER
         }
     })
-    return OwnershipArea
+    return Location
 }

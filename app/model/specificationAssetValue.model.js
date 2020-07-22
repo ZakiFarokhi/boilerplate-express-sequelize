@@ -1,15 +1,17 @@
 module.exports = (sequelize, Sequelize) => {
-    const SpecificationAssetValue = 
+    const SpecificationAssetValue =
         sequelize.define('specificationAssetValue', {
-            specificationAssetValue_id: {
+            id: {
                 type: Sequelize.INTEGER,
                 primaryKey: true,
                 autoIncrement: true
             },
             name: {
                 type: Sequelize.STRING
-            },
-            
+            }, createdBy: {
+                type: Sequelize.INTEGER
+            }
+
         })
     return SpecificationAssetValue
 }

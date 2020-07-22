@@ -2,19 +2,22 @@ const db = require('./app/config/db.config.js');
 const Permission = db.permission
 const Role = db.role
 
-const initial = () =>{
+const initial = () => {
     const Actions = ['CREATE', 'READ', 'UPDATE', 'DELETE']
-    const Models = ['ROLE', 'PERMISSION','USER']
-    for (let i = 0; i < Models.length; ) {
+    const Models = ['USER', 'ROLE', 'PERMISSION', 'MASTEREMPLOYEE',
+        'STATUSEMPLOYEE', 'CATEGORYASSET', 'SPECIFICATIONASSET',
+        'SPECIFICATIONASSETVALUE', 'MASTERASSET', 'SITE',
+        'LOCATION', 'DEPARTMENT', 'STATUSASSET', 'STATUSASSETFIELD',
+        'STATUSASSETVALUE', 'LOGASSET','LOGUSER','LOGEMPLOYEE']
+    for (let i = 0; i < Models.length;) {
+        Models.CO
         var modelValue = Models[i];
-        // console.log(modelValue)
         for (let j = 0; j < Actions.length; j++) {
             var actionValue = Actions[j];
-            // console.log(actionValue)
             Permission.create({
-                table : modelValue.toUpperCase(),
-                action : actionValue
-            }) 
+                table: modelValue.toUpperCase(),
+                action: actionValue
+            })
         }
         i++
     }
@@ -23,7 +26,7 @@ const initial = () =>{
         description: 'this role can operate all action table in database'
     }).then(role => {
         Permission.findAll()
-            .then(permission=>{
+            .then(permission => {
                 role.setPermissions(permission)
                     .then(() => {
                         console.log('auto input actions for super admin')

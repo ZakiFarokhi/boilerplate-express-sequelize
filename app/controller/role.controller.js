@@ -1,34 +1,23 @@
 const db = require('../config/db.config')
 const Role = db.role
 const Op = db.Sequelize.Op
+const response = require('../middleware/response/responseHandling')
 
 exports.createRole = (req, res) => {
     Role.create({
         name : req.body.name,
         description: req.body.description
     }).then(role => {
-        res.status(200).json({
-            "message" : "role created",
-            "data" : role
-        })
+        response(res, true, 'role created', role)
     }).catch(error => {
-        res.status(500).json({
-            "message" : "failed to create role",
-            "data" : role
-        })
+        response(res, false, 'cannot create role', error)
     })
 }
 exports.readAllRole = (req, res) => {
     Role.findAll().then(role => { 
-        res.status(200).json({
-            "message" : "role retrieve",
-            "data" : role
-        })
+        response(res, true, 'all roles retrieved', role)
     }).catch(error => {
-        res.status(500).json({
-            "message" : "role not retrieve",
-            "data" : role
-        })
+        response(res, false, 'cannot retrieve roles', error)
     })
 }
 exports.readRole = (req, res) => {
@@ -37,15 +26,9 @@ exports.readRole = (req, res) => {
             role_id : req.params.roleId
         }
     }).then(role => {
-        res.status(200).json({
-            "message" : "role retrieved",
-            "data" : role
-        })
+        response(res, true, 'role retrieved', role)
     }).catch(error => {
-        res.status(500).json({
-            "message" : "role not retrieved",
-            "data" : role
-        })
+        response(res, false, 'cannot retrieve role', error)
     })
 }
 exports.updateRole = (req, res) => {
@@ -58,16 +41,12 @@ exports.updateRole = (req, res) => {
             name : req.body.name,
             description : req.body.description
         }).then(roleUpdated => {
-            res.status(200).json({
-                "message" : "role updated",
-                "data" : roleUpdated
-            })
+            response(res, true, 'role updated', roleUpdated)
         }).catch(error => {
-            res.status(500).json({
-                "message" : "role not update",
-                "data" : error
-            })
+            response(res, false, 'cannot update role', error)
         })
+    }).catch(error => {
+        response(res, false, 'role not found', error)
     })
 }
 exports.deleteRole = (req, res) => {
@@ -78,20 +57,11 @@ exports.deleteRole = (req, res) => {
         }
     }).then(role => {
         role.destroy().then(roleDestroyed => {
-            res.status(200).json({
-                "message" : "role deleted",
-                "data" : roleDestroyed
-            })
+            response(res, true, 'role deleted', roleDestroyed)
         }).catch(error => {
-            res.status(500).json({
-                "message": "cannot delete role",
-                "data" : error
-            })
+            response(res, fals, 'role cannot delete', error)
         })
     }).catch(error => {
-        res.status(500).json({
-            "message" : "role not Found",
-            "data" : error
-        })
+        response(res, false, 'role not found', error)
     })
 }

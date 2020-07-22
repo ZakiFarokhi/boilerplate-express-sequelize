@@ -1,19 +1,16 @@
 module.exports = (sequelize, Sequelize) => {
-    const CategoryAsset = sequelize.define('categoryAsset', {
+    const statusAsset = sequelize.define('statusAsset', {
         id: {
             type: Sequelize.INTEGER,
             primaryKey: true,
             autoIncrement: true
-        },
-        name: {
-            type:Sequelize.STRING
-        },
-        description: {
+        }, name: {
             type: Sequelize.STRING
-        },
-        createdBy: {
+        }, description: {
+            type: Sequelize.STRING
+        }, createdBy: {
             type: Sequelize.INTEGER
         }
     })
-    return CategoryAsset;
+    return statusAsset;
 }

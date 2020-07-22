@@ -2,11 +2,15 @@ var express = require('express')
 var app = express();
 var bodyParser = require('body-parser')
 var initial = require('./initial')
+var cors = require('cors')
+app.use(cors())
 app.use(bodyParser.json())
 //connect configure database
 const db = require('./app/config/db.config')
 
 require('./app/router/user.router.js')(app);
+require('./app/router/masterAsset.router')(app)
+require('./app/router/employee.router')(app)
 //list router
 
 var server = app.listen(2020, function(){
@@ -16,12 +20,14 @@ var server = app.listen(2020, function(){
 })
 
 app.get('/', function(req,res){
-	res.send('hello ITAsset On Express JS')
+	res.json({
+    'success': true
+  })
 })
 
 const dropSync = true
 db.sequelize.sync({force: dropSync}).then(() => {
-    console.log('Drop and Resync with { force: false }');
+    console.log('Drop and Resync with { force: '+dropSync+' }');
     dropSync? initial.initial():console.log('finish without drop and sync table')
     console.log('finish');
 });
@@ -30,13 +36,19 @@ db.sequelize.sync({force: dropSync}).then(() => {
 
 app.get('/test', 
   function(req, res, next) { 
-    res.locals.custom   = true;
-    res.locals.myObject = { hello: 1 };
+    req.custom   = true;
+    req.myObject = { hello: 1 };
     next(); 
   }, 
   function(req, res) { 
-    console.log('See:', res.locals.custom, res.locals.myObject); 
-    return res.status(200).send(res.locals); 
+    const var1 = req.custom;
+    const var2 = req.myObject;
+    console.log(typeof(var1))
+    console.log(typeof(var2))
+    return res.json({
+      'var1' : var1,
+      'var2': var2
+    }); 
   });
 
 
