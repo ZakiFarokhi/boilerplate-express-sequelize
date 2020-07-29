@@ -51,14 +51,12 @@ const roleToPermission = sequelize.define('roleToPermission', {
       autoIncrement: true,
       allowNull: false
     }
-});
-db.role.belongsToMany(db.permission,
-    { through: roleToPermission, foreignKey: 'role_id'})
-db.permission.belongsToMany(db.role,
-    { through: roleToPermission, foreignKey: 'permission_id'})
+}); 
+db.role.belongsToMany(db.permission, { as: 'role', through: roleToPermission, foreignKey: { name: 'permission_id', allowNull: false } });
+db.permission.belongsToMany(db.role, { through: roleToPermission, foreignKey: { name: 'role_id', allowNull: false } });
 
-db.statusEmployee.hasMany(db.employee, {foreignKey: 'statusEmployeeId'})    
-db.employee.belongsTo(db.statusEmployee )
+db.employee.belongsTo(db.statusEmployee ,{foreignKey:{name:'statusEmployee_id', allowNull:false}})
+db.statusEmployee.hasMany(db.employee, {foreignKey: 'statusEmployee_id', allowNull:false})
 
 const categoryToSpecification = sequelize.define('categoryToSpecification',{
     id: {
@@ -68,34 +66,18 @@ const categoryToSpecification = sequelize.define('categoryToSpecification',{
         allowNull: false
     }
 })
-db.categoryAsset.belongsToMany(db.specificationAsset,
-    {through:categoryToSpecification, foreignKey: 'categoryAsset_id'})
-db.specificationAsset.belongsToMany(db.categoryAsset,{
-    through:categoryToSpecification, foreignKey: 'specificationAsset_id'})
+db.categoryAsset.belongsToMany(db.specificationAsset, { as: 'spec', through: categoryToSpecification, foreignKey: { name: 'specificationAsset_id', allowNull: false } });
+db.specificationAsset.belongsToMany(db.categoryAsset, { through: categoryToSpecification, foreignKey: { name: 'categoryAsset_id', allowNull: false } });
 
-db.specificationAsset.hasMany(db.specificationAssetValue)
-db.specificationAssetValue.belongsTo(db.specificationAsset)
+db.specificationAssetValue.belongsTo(db.specificationAsset ,{foreignKey:{name:'specificationAsset_id', allowNull:false}})
+db.specificationAsset.hasMany(db.specificationAssetValue, {foreignKey: 'specificationAssetValue_id', allowNull:false})
 
-db.statusAsset.hasMany(db.masterAsset)
-db.masterAsset.belongsTo(db.statusAsset)
+db.masterAsset.belongsTo(db.statusAsset ,{foreignKey:{name:'statusAsset_id', allowNull:false}})
+db.statusAsset.hasMany(db.masterAsset, {foreignKey: 'masterAsset_id', allowNull:false})
 
-db.categoryAsset.hasMany(db.masterAsset)
-db.masterAsset.belongsTo(db.categoryAsset)
+db.masterAsset.belongsTo(db.categoryAsset,{foreignKey:{name:'categoryAsset_id', allowNull:false}})
+db.categoryAsset.hasMany(db.masterAsset, {foreignKey: 'masterAsset_id', allowNull:false})
 
-db.employee.hasMany(db.masterAsset)
-db.masterAsset.belongsTo(db.employee)
-
-db.site.hasMany(db.location)
-db.location.belongsTo(db.site)
-
-db.site.hasMany(db.employee)
-db.employee.belongsTo(db.site)
-
-db.site.hasMany(db.masterAsset)
-db.masterAsset.belongsTo(db.site)
-
-db.department.hasMany(db.masterAsset)
-db.masterAsset.belongsTo(db.department)
 
 
 module.exports = db;

@@ -6,12 +6,18 @@ var cors = require('cors')
 app.use(cors())
 app.use(bodyParser.json())
 //connect configure database
+
 const db = require('./app/config/db.config')
 
 require('./app/router/user.router.js')(app);
 require('./app/router/masterAsset.router')(app)
 require('./app/router/employee.router')(app)
+require('./app/router/role.router')(app)
+require('./app/router/site.router')(app)
 //list router
+
+//test Middleware
+//require('./app/middleware/middlewareTest.route.js')(app)
 
 var server = app.listen(2020, function(){
     var host = server.address().address
@@ -26,7 +32,7 @@ app.get('/', function(req,res){
 })
 
 const dropSync = true
-db.sequelize.sync({force: dropSync}).then(() => {
+ db.sequelize.sync({force: dropSync}).then(() => {
     console.log('Drop and Resync with { force: '+dropSync+' }');
     dropSync? initial.initial():console.log('finish without drop and sync table')
     console.log('finish');

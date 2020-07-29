@@ -7,7 +7,7 @@ module.exports = (sequelize, Sequelize) => {
         }, field: {
             type: Sequelize.STRING
         }, exValue: {
-            type: Sequelize.STRING
+            type: Sequelize.STRING //example value
         }, description: {
             type: Sequelize.STRING
         }, createdBy: {

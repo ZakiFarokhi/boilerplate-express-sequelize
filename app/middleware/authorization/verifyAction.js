@@ -2,35 +2,30 @@ const db = require('../../config/db.config');
 const Role = db.role;
 const Permission = db.permission
 
-exports.tableActionAccessCheck = (req, res, next) => {
+exports.verifyTableAccess = (req, res, next) => {
     Permission.findOne({
-        where : {
-            table : req.params.table,
-            action : req.params.action
-        },
-        attributes:['permission_id', 'table', 'action'],
+        where:{
+            table : req.params.tb, //table
+            action : req.params.act //action
+        }, attributes:['id', 'table', 'action'],
         include: [{
             model: Role,
-            where:{
-                role_id : req.params.roleId
+            where: {
+                id : req.headers['x-rid'] //roleId
             },
-            attributes: ['role_id'],
-            through: {
-                attributes: ['permission_id', 'role_id']
+            attributes: ['id'],
+            through : {
+                attributes: ['permissionId', 'roleId']
             }
         }]
-    }).then(() => {
-        res.status(200).json({
-            'message': 'success'
-        })
+    }).then(permission => {
+        Response(res, true, 'access to table and action', permission)
         next()
-    }).catch(error => {
-        res.status(500).json({
-            'message': 'failed',
-            'data': error
-        })
+    }).catch(err => {
+        Response(res, false, 'access denied', err)
     })
 }
+
 
 
 
