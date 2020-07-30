@@ -2,7 +2,9 @@ const db = require('../config/db.config')
 const CategoryAsset = db.categoryAsset
 const Op = db.Sequelize.Op
 const response = require('../middleware/response/responseHandling')
-
+const SpecificationAsset = db.specificationAsset;
+const SpecificationAssetValue = db.specificationAssetValue
+const User = db.user
 exports.createCategoryAsset = (req, res) => {
     CategoryAsset.create({
         name : req.body.name,
@@ -14,7 +16,13 @@ exports.createCategoryAsset = (req, res) => {
     })
 }
 exports.readAllCategoryAsset = (req, res) => {
-    CategoryAsset.findAll().then(categoryAsset => {
+    CategoryAsset.findAll({
+        include:[
+            {model:SpecificationAsset, include:[
+                SpecificationAssetValue
+            ]}
+        ]
+    }).then(categoryAsset => {
         response(res, true, 'category asset retrieve', categoryAsset) 
     }).catch(error => {
         response(res, false, 'cannot read category asset', error)
@@ -23,8 +31,14 @@ exports.readAllCategoryAsset = (req, res) => {
 exports.readCategoryAsset = (req, res) => {
     CategoryAsset.findOne({
         where : {
-            categoryAsset_id : req.params.categoryAsset_id
-        }
+            id : req.params.id
+        },
+        include:[
+            {model:SpecificationAsset,
+             include:[
+                {model:SpecificationAssetValue}
+            ]}
+        ]
     }).then(categoryAsset => {
         response(res, true, 'category asset retrieve', categoryAsset) 
     }).catch(error => {

@@ -8,7 +8,7 @@ const initial = () => {
         'STATUSEMPLOYEE', 'CATEGORYASSET', 'SPECIFICATIONASSET',
         'SPECIFICATIONASSETVALUE', 'MASTERASSET', 'SITE',
         'LOCATION', 'DEPARTMENT', 'STATUSASSET', 'STATUSASSETFIELD',
-        'STATUSASSETVALUE', 'LOGASSET','LOGUSER','LOGEMPLOYEE']
+        'STATUSASSETVALUE', 'LOGASSET', 'LOGUSER', 'LOGEMPLOYEE']
     for (let i = 0; i < Models.length;) {
         var modelValue = Models[i];
         for (let j = 0; j < Actions.length; j++) {
@@ -20,58 +20,58 @@ const initial = () => {
         }
         i++
     }
-    try{
+    try {
         db.site.create({
-            name : 'Pusat',
-            address : 'Jakarta Barat',
-            city : 'Jakarta Barat',
+            name: 'Pusat',
+            address: 'Jakarta Barat',
+            city: 'Jakarta Barat',
             province: 'DKI Jakarta',
             zip: '123456',
             country: 'Indonesia',
             createdBy: '1'
         })
         db.location.create({
-            id : '1',
-            name:'DKI BEKASI 2',
+            id: '1',
+            name: 'DKI BEKASI 2',
             description: 'Depo Bekasi 2',
             createdBy: '1',
-            siteId : '1'
+            siteId: '1'
         })
         db.location.create({
-            id : '2',
-            name:'DKI SELATAN 2',
+            id: '2',
+            name: 'DKI SELATAN 2',
             description: 'Depo Selatab 2',
             createdBy: '1',
-            siteId : '1'
+            siteId: '1'
         })
         db.location.create({
-            id : '3',
-            name:'DKI TIMUR 2',
+            id: '3',
+            name: 'DKI TIMUR 2',
             description: 'Depo Timur 2',
             createdBy: '1',
-            siteId : '1'
+            siteId: '1'
         })
         db.location.create({
-            id : '4',
-            name:'DKI UTARA 2',
+            id: '4',
+            name: 'DKI UTARA 2',
             description: 'Depo Utara 2',
             createdBy: '1',
-            siteId : '1'
+            siteId: '1'
         })
         db.categoryAsset.create({
-            name : 'Laptop',
-            description : 'Laptop atau Notebook',
-            createdBy : '1'
+            name: 'Laptop',
+            description: 'Laptop atau Notebook',
+            createdBy: '1'
         })
         db.categoryAsset.create({
-            name : 'PC',
-            description : 'Personal Computer',
-            createdBy : '1'
+            name: 'PC',
+            description: 'Personal Computer',
+            createdBy: '1'
         })
         db.categoryAsset.create({
-            name : 'Monitor',
-            description : 'Monitor untuk desktop',
-            createdBy : '1'
+            name: 'Monitor',
+            description: 'Monitor untuk desktop',
+            createdBy: '1'
         })
         db.specificationAsset.create({
             name: 'Processor',
@@ -93,13 +93,13 @@ const initial = () => {
         })
         db.specificationAsset.create({
             name: 'Audio',
-            dataType: 'DropDown',
+            dataType: 'Input',
             isRequired: 'true',
             createdBy: '1'
         })
         db.specificationAsset.create({
             name: 'Layar',
-            dataType: 'DropDown',
+            dataType: 'Input',
             isRequired: '',
             createdBy: '1'
         })
@@ -115,10 +115,11 @@ const initial = () => {
                         })
                 })
         })
-       
-    }catch{console.error()
+
+    } catch{
+        console.error()
     }
-    
+
 }
 
 exports.initial = initial

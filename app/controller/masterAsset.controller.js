@@ -66,9 +66,9 @@ exports.createAsset = async (req, res) => {
             model : req.body.model,
             serial_no : req.body.serial_no,
             siteId : req.body.siteId,
+            categoryAssetId :req.body.categoryAssetId,
             locationId : req.body.locationId,
             departmentId : req.body.departmentId,
-            statusAssetId : req.body.statusAssetId,
             lastOpname : req.body.lastOpname,
             createdBy : req.body.createdBy
         })

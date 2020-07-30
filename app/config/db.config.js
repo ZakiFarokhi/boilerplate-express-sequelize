@@ -82,6 +82,19 @@ db.masterAsset.belongsTo(db.statusAsset)
 db.categoryAsset.hasMany(db.masterAsset)
 db.masterAsset.belongsTo(db.categoryAsset)
 
+const AssetToSpecificationValue = sequelize.define('AssetToSpecificationValue',{
+    id: {
+        type: Sequelize.INTEGER,
+        primaryKey: true,
+        autoIncrement: true,
+        allowNull: false
+    }
+})
+db.masterAsset.belongsToMany(db.specificationAssetValue,
+    {through:AssetToSpecificationValue, foreignKey: 'asset_id'})
+db.specificationAssetValue.belongsToMany(db.masterAsset,{
+    through:AssetToSpecificationValue, foreignKey: 'specificationValue_id'})
+
 db.employee.hasMany(db.masterAsset)
 db.masterAsset.belongsTo(db.employee)
 

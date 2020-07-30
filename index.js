@@ -14,6 +14,9 @@ require('./app/router/masterAsset.router')(app)
 require('./app/router/employee.router')(app)
 require('./app/router/role.router')(app)
 require('./app/router/site.router')(app)
+require('./app/router/location.router')(app)
+require('./app/router/department.router')(app)
+require('./app/router/categoryAsset.router')(app)
 //list router
 
 //test Middleware
