@@ -1,9 +1,17 @@
+const authJwt = require('../middleware/authentication/authJwt');
+const checkAction = require('../middleware/authorization/verifyAction')
 module.exports = function(app) {
     const controller = require('../controller/categoryAsset.controller')
 
-    app.get('/v1/categorys/', controller.readAllCategoryAsset)
+    app.get('/categoryAssets/read/', controller.readAllCategoryAsset)
 
-    app.get('/v1/category/:id', controller.readCategoryAsset)
+    app.get('/categoryAssets/read/:id', controller.readCategoryAsset)
 
-    app.post('v1/category/', controller.createCategoryAsset)
+    app.post('/categoryAssets/create/', controller.createCategoryAsset)
+
+    app.patch('/categoryAssets/update/:id', controller.updateCategoryAsset)
+
+    app.delete('/categoryAssets/delete/:id', controller.deleteCategoryAsset)
+
+
 }

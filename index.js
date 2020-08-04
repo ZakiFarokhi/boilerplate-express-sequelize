@@ -9,14 +9,20 @@ app.use(bodyParser.json())
 
 const db = require('./app/config/db.config')
 
-require('./app/router/user.router.js')(app);
+require('./app/router/middleware.router')(app)
+require('./app/router/user.router')(app);
+require('./app/router/role.router')(app)
 require('./app/router/masterAsset.router')(app)
 require('./app/router/employee.router')(app)
-require('./app/router/role.router')(app)
 require('./app/router/site.router')(app)
 require('./app/router/location.router')(app)
 require('./app/router/department.router')(app)
 require('./app/router/categoryAsset.router')(app)
+require('./app/router/statusAsset.router')(app)
+require('./app/router/statusEmployee.router')(app)
+require('./app/router/specificationAsset.router')(app)
+require('./app/router/specificationAssetValue.router')(app)
+
 //list router
 
 //test Middleware
@@ -28,17 +34,20 @@ var server = app.listen(2020, function(){
     console.log("App listening at http://%s:%s", host, port)
 })
 
-app.get('/', function(req,res){
+app.get('/', function(req,res, next){
+  
 	res.json({
     'success': true
   })
 })
 
-const dropSync = true
+const dropSync = false
  db.sequelize.sync({force: dropSync}).then(() => {
     console.log('Drop and Resync with { force: '+dropSync+' }');
     dropSync? initial.initial():console.log('finish without drop and sync table')
     console.log('finish');
+    db.sequelize.showAllSchemas({}).then(schema=> console.log(schema))
+
 });
 
 

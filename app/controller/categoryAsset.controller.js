@@ -17,11 +17,13 @@ exports.createCategoryAsset = (req, res) => {
 }
 exports.readAllCategoryAsset = (req, res) => {
     CategoryAsset.findAll({
-        include:[
-            {model:SpecificationAsset, include:[
-                SpecificationAssetValue
-            ]}
-        ]
+        include: { all: true, nested: true }
+        // include: [{
+        //     model: SpecificationAsset,
+        //     through: {
+        //       attributes: [specificationAsset_id, categoryAsset_id]
+        //     }
+        //   }]
     }).then(categoryAsset => {
         response(res, true, 'category asset retrieve', categoryAsset) 
     }).catch(error => {
@@ -33,12 +35,7 @@ exports.readCategoryAsset = (req, res) => {
         where : {
             id : req.params.id
         },
-        include:[
-            {model:SpecificationAsset,
-             include:[
-                {model:SpecificationAssetValue}
-            ]}
-        ]
+        include: { all: true, nested: true }
     }).then(categoryAsset => {
         response(res, true, 'category asset retrieve', categoryAsset) 
     }).catch(error => {
@@ -48,7 +45,7 @@ exports.readCategoryAsset = (req, res) => {
 exports.updateCategoryAsset = (req, res) => {
     CategoryAsset.findOne({
         where : {
-            categoryAsset_id : req.params.categoryAsset_id
+            id : req.params.id
         }
     }).then(categoryAsset => {
         categoryAsset.update({
@@ -64,7 +61,7 @@ exports.updateCategoryAsset = (req, res) => {
 exports.deleteCategoryAsset = (req, res) => {
     CategoryAsset.findOne({
         where : {
-            categoryAsset_id : req.params.categoryAsset_id
+            id : req.params.id
         }
     }).then(categoryAsset => {
         categoryAsset.destroy().then(categoryAssetDestroyed => {

@@ -30,15 +30,16 @@ exports.readAsset = async (req, res) => {
             where: {
                 id
             },
-            include : [
-                {model: User, attributes:['id', 'name']},
-                {model: Site, include:[
-                    {model:Location }
-                ] },
-                {model: Employee},
-                {model: Status, attributes: ['id', 'name']},
-                {model: Category, attributes: ['id', 'name']}
-            ]
+            include: { all: true, nested: true }
+            // include : [
+            //     {model: User, attributes:['id', 'name']},
+            //     {model: Site, include:[
+            //         {model:Location }
+            //     ] },
+            //     {model: Employee},
+            //     {model: Status, attributes: ['id', 'name']},
+            //     {model: Category, attributes: ['id', 'name']}
+            // ]
         })
         response(res, true, 'asset retrieve', asset)
    }catch(err){
@@ -47,7 +48,9 @@ exports.readAsset = async (req, res) => {
 }
 exports.readAssets = (req, res) => {
     console.log('we try to retrieve all asset')
-    MasterAsset.findAll().then(assets => {
+    MasterAsset.findAll({
+        include: { all: true, nested: true }
+    }).then(assets => {
         response(res, true, 'All Asset Retrieved', assets)
     }).catch(err => {
         console.log(err)
@@ -82,11 +85,15 @@ exports.updateAsset = async (req, res) => {
     try {
         const  { tag_id ,description ,purcase_date ,purchase_from,purchase_cost ,brand
             ,model ,serial_no ,siteId ,locationId ,departmentId ,statusAssetId
-            ,lastOpname,createdBy,categoryAssetId } = req.body
+            ,lastOpname,categoryAssetId, masterEmployeeId } = req.body;
+        const {id} = req.params
         await MasterAsset.update(
             { tag_id ,description ,purcase_date ,purchase_from,purchase_cost ,brand
                 ,model ,serial_no ,siteId ,locationId ,departmentId ,statusAssetId
-                ,lastOpname,createdBy,categoryAssetId }
+                ,lastOpname,categoryAssetId, masterEmployeeId },
+            {
+                where : {id : id}
+            }
         )
         response(res, true, 'Asset Create',{[fieldName]: newInfo})
     }catch (err){

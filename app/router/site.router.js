@@ -1,7 +1,14 @@
 module.exports = function(app){
     const controller = require('../controller/site.controller')
 
-    app.get('/v1/sites/', controller.readAllSite)
-    app.get('/v1/site/:id', controller.readSite)
-    app.post('/v1/site/', controller.createSite)
+    app.get('/sites/read/', controller.readAllSite)
+
+    app.get('/sites/read/:id', controller.readSite)
+
+    app.post('/sites/create/', controller.createSite)
+
+    // app.put('/site/update/:id', controller.updateUser)
+
+    // app.delete('/site/delete/:id', controller.deleteUser)
+
 }

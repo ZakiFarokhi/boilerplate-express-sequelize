@@ -7,6 +7,7 @@ var jwt = require('jsonwebtoken')
 var bcrypt = require('bcryptjs')
 const response = require('../middleware/response/responseHandling')
 const Permission = db.permission
+
 exports.countUser = (req, res) => {
     const filterBy = req.params.filterBy
     var whereClause = {};
@@ -20,58 +21,45 @@ exports.countUser = (req, res) => {
         response(res, false, 'cannot count user', err)
     })
 }
+exports.createUserByAdmin = (req, res) => {
+    console.log(req.body)
+
+    User.create({
+        name: req.body.name,
+        email: req.body.email,
+        password: bcrypt.hashSync(req.body.password, 10),
+        roleId: req.body.roleId
+    }).then(user => {
+        console.log(user)
+        response(res, true, 'user created', user)
+    }).catch(err => {
+        console.log(err)
+        response(res, false, 'cannot create user', err)
+    })
+}
 exports.createUser = (req, res) => {
-    var isSuperAdmin = Boolean
-    User.count().then(userCount => {
-        userCount == 0 ? isSuperAdmin = true : isSuperAdmin = false;
-        if (isSuperAdmin) {
-            Role.findOne({
-                attributes: ['id', 'name'],
-                where: {
-                    id: 1
-                }
-            }).then(role => {
-                console.log(role)
-                //const { name, email, password } = req.body
-                const { fieldName, newInfo } = req.body;
-                console.log(fieldName)
-                console.log(newInfo)
-                User.create({
-                    //name, email, password 
-                    //[fieldName]: newInfo
-                    name : req.body.name,
-                    email : req.body.email,
-                    password : bcrypt.hashSync(req.body.password, 10),
-                    startDate : null,
-                    endDate : null,
-                    roleId: role.id
-                }).then(user => {
-                    response(res, true, 'admin created', { user, role })
-                    console.log(fieldName)
-                    console.log(newInfo)
-                }).catch(error => {
-                    response(res, false, 'cannot create user', error)
-                })
-            }).catch(error => {
-                response(res, false, 'cannot found super admin', error)
-            })
-        } else {
-            console.log('not super admin')
-            User.create({
-                name : req.body.name,
-                email : req.body.email,
-                password : bcrypt.hashSync(req.body.password, 10),
-                startDate : null,
-                endDate : null,
-                roleId: req.body.roleId
-            }).then(user => {
-                response(res, true, 'user created', user)
-            }).catch(err => {
-                response(res, false, 'cannot create user', err)
-            })
+    Role.findOne({
+        attributes: ['id', 'name'],
+        where: {
+            id: 1
         }
+    }).then(role => {
+        console.log(role)
+
+        User.create({
+            name: req.body.name,
+            email: req.body.email,
+            password: bcrypt.hashSync(req.body.password, 10),
+            startDate: null,
+            endDate: null,
+            roleId: role.id
+        }).then(user => {
+            response(res, true, 'admin created', { user, role })
+        }).catch(err => {
+            response(res, false, 'cannot create user', err)
+        })
     }).catch(error => {
-        response(res, false, 'cannot create super admin user', error)
+        response(res, false, 'cannot found super admin', error)
     })
 }
 
@@ -89,24 +77,21 @@ exports.signin = (req, res) => {
             //return res.status(401).send({ auth: false, accessToken: null, reason: "Invalid Password!" });
             return response(res, false, 'password invalid', { auth: false, accessToken: null, reason: "Invalid Password!" })
         }
-        var token = jwt.sign({ id: user.userId }, config.secret, {
+        var token = jwt.sign({ id: user.id, role: user.roleId }, config.secret, {
             expiresIn: 86400 // expires in 24 hours
         });
         res.json({ 'success': true, 'data': { 'token': token, 'userId': user.id } });
-        console.log(token, user.id)
+        console.log(token, user.id, user.roleId)
     }).catch(err => {
-        res.json({
-            error: err
-        });
+        console.log(err)
 
     });
 }
 
-exports.readUsers = (req, res) => { //read All User
-    console.log("we try to read all User")
+exports.readUsers = (req, res,) => { //read All User
     User.findAll({
-        include:[
-            {model:Role}
+        include: [
+            { model: Role }
         ]
     }).then(user => {
         response(res, true, 'users retrieved', user)
@@ -120,10 +105,12 @@ exports.readUser = (req, res) => { //read one data of user
         where: {
             id: req.params.id
         },
-        include:[
-            {model: Role, attributes:['id', 'name'], include: [
-                {model: Permission}
-            ]},
+        include: [
+            {
+                model: Role, attributes: ['id', 'name'], include: [
+                    { model: Permission }
+                ]
+            },
         ]
     }).then(user => {
         response(res, true, 'user retrieved', user)
@@ -157,7 +144,7 @@ exports.deleteUser = (req, res) => {
     console.log("we try to delete a specific user")
     User.findOne({
         where: {
-            id: req.params.userId
+            id: req.params.id
         }
     }).then(user => {
         user.destroy().then(userDeleted => {

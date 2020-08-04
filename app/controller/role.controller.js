@@ -2,7 +2,7 @@ const db = require('../config/db.config')
 const Role = db.role
 const Op = db.Sequelize.Op
 const response = require('../middleware/response/responseHandling')
-
+const User = db.role
 exports.createRole = (req, res) => {
     Role.create({
         name : req.body.name,
@@ -14,7 +14,8 @@ exports.createRole = (req, res) => {
     })
 }
 exports.readAllRole = (req, res) => {
-    Role.findAll().then(role => { 
+    Role.findAll({
+    }).then(role => { 
         response(res, true, 'all roles retrieved', role)
     }).catch(error => {
         response(res, false, 'cannot retrieve roles', error)
@@ -23,7 +24,7 @@ exports.readAllRole = (req, res) => {
 exports.readRole = (req, res) => {
     Role.findOne({
         where : {
-            role_id : req.params.roleId
+            id : req.params.id
         }
     }).then(role => {
         response(res, true, 'role retrieved', role)
@@ -34,7 +35,7 @@ exports.readRole = (req, res) => {
 exports.updateRole = (req, res) => {
     Role.findOne({
         where : {
-            role_id : req.params.userId
+            id : req.params.id
         }
     }).then(role => {
         role.update({
@@ -52,8 +53,8 @@ exports.updateRole = (req, res) => {
 exports.deleteRole = (req, res) => {
     Role.findOne({
         where : {
-            role_id : req.params.roleId,
-            [Op.not]:{role_id : 1}
+            id : req.params.id,
+            [Op.not]:{id : 1}
         }
     }).then(role => {
         role.destroy().then(roleDestroyed => {
