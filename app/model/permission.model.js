@@ -1,16 +1,17 @@
 module.exports = (sequelize, Sequelize) => {
-  const Role = sequelize.define('role', {
+  const Permission = sequelize.define('permissions', {
     id: {
       type: Sequelize.INTEGER,
       primaryKey: true,
       autoIncrement: true
     },
-    name: {
+    table: {
       type: Sequelize.STRING(50)
     },
-    description: {
-      type: Sequelize.STRING
+    action: { //or scope
+      type: Sequelize.STRING(10)
     }
+
   });
-  return Role;
+  return Permission;
 }

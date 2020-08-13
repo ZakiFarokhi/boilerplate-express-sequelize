@@ -1,13 +1,13 @@
 var express = require('express')
 var app = express();
 var bodyParser = require('body-parser')
-var initial = require('./initial')
+require('dotenv').config()
 var cors = require('cors')
 app.use(cors())
 app.use(bodyParser.json())
 //connect configure database
 
-const db = require('./app/config/db.config')
+const db = require('./app/db/db.config')
 
 var server = app.listen(2020, function(){
     var host = server.address().address
@@ -21,7 +21,7 @@ app.get('/', function(req,res, next){
   })
 })
 
-const dropSync = false
+const dropSync = true
  db.sequelize.sync({force: dropSync}).then(() => {
     console.log('Drop and Resync with { force: '+dropSync+' }');
     dropSync? initial.initial():console.log('finish without drop and sync table')
@@ -35,20 +35,11 @@ app.get('/test',
     req.custom   = true;
     req.myObject = { hello: 1 };
     next(); 
-  }, 
-  function(req, res) { 
-    const var1 = req.custom;
-    const var2 = req.myObject;
-    console.log(typeof(var1))
-    console.log(typeof(var2))
-    return res.json({
-      'var1' : var1,
-      'var2': var2
-    }); 
-  });
+  })
 
-
-
+  require('./app/router/middleware.router')(app)
+  require('./app/router/user.router')(app);
+  require('./app/router/role.router')(app)
    
 
 

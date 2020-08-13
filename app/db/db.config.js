@@ -20,11 +20,7 @@ const sequelize = new Sequelize(
     },
     
 })
-console.log(sequelize)
-console.log(process.env.DATABASE, process.env.DB_USERNAME, process.env.DB_PASSWORD,'max: ',parseInt(process.env.DB_POOL_MAX),
-'min:', parseInt(process.env.DB_POOL_MIN),
-'acquire:', parseInt(process.env.DB_POOL_ACQUIRE),
-'idle:', parseInt(process.env.DB_POOL_IDLE))
+
 const db = {};
 db.Sequelize = Sequelize
 db.sequelize = sequelize
