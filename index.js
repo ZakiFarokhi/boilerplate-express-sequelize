@@ -9,25 +9,6 @@ app.use(bodyParser.json())
 
 const db = require('./app/config/db.config')
 
-require('./app/router/middleware.router')(app)
-require('./app/router/user.router')(app);
-require('./app/router/role.router')(app)
-require('./app/router/masterAsset.router')(app)
-require('./app/router/employee.router')(app)
-require('./app/router/site.router')(app)
-require('./app/router/location.router')(app)
-require('./app/router/department.router')(app)
-require('./app/router/categoryAsset.router')(app)
-require('./app/router/statusAsset.router')(app)
-require('./app/router/statusEmployee.router')(app)
-require('./app/router/specificationAsset.router')(app)
-require('./app/router/specificationAssetValue.router')(app)
-
-//list router
-
-//test Middleware
-//require('./app/middleware/middlewareTest.route.js')(app)
-
 var server = app.listen(2020, function(){
     var host = server.address().address
     var port = server.address().address
@@ -35,7 +16,6 @@ var server = app.listen(2020, function(){
 })
 
 app.get('/', function(req,res, next){
-  
 	res.json({
     'success': true
   })
@@ -49,8 +29,6 @@ const dropSync = false
     db.sequelize.showAllSchemas({}).then(schema=> console.log(schema))
 
 });
-
-
 
 app.get('/test', 
   function(req, res, next) { 

@@ -1,4 +1,4 @@
-const db = require('../../config/db.config')
+const db = require('../../db/db.config')
 const User = db.user
 const Role = db.role
 const Response = require('../response/responseHandling')
