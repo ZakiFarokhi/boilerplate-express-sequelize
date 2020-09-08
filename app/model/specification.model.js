@@ -1,16 +1,16 @@
 module.exports = (sequelize, Sequelize) => {
-    const Location = sequelize.define('location', {
+    const statusAssetField = sequelize.define('specification', {
         id: {
             type: Sequelize.INTEGER,
             primaryKey: true,
             autoIncrement: true
-        },
-        name: {
+        }, name: {
             type: Sequelize.STRING(50)
-        },
-        site: {
+        }, description: {
+            type: Sequelize.STRING
+        }, DataType: {
             type: Sequelize.STRING(50)
         }
     })
-    return Location
+    return statusAssetField;
 }

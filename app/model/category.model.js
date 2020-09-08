@@ -1,5 +1,5 @@
 module.exports = (sequelize, Sequelize) => {
-    const Location = sequelize.define('location', {
+    const Category = sequelize.define('category', {
         id: {
             type: Sequelize.INTEGER,
             primaryKey: true,
@@ -8,9 +8,9 @@ module.exports = (sequelize, Sequelize) => {
         name: {
             type: Sequelize.STRING(50)
         },
-        site: {
-            type: Sequelize.STRING(50)
+        description: {
+            type: Sequelize.STRING
         }
     })
-    return Location
+    return Category
 }

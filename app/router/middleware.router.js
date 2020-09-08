@@ -1,5 +1,5 @@
-const authJwt = require('../middleware/authorization/verifyAction');
-const checkAction = require('../middleware/authorization/')
+const authJwt = require('../middleware/authentication/auth.jwt');
+const checkAction = require('../middleware/authorization/verifyAction')
 
 module.exports = function (app) {
 

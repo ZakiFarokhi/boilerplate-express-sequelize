@@ -1,14 +1,13 @@
 module.exports = (sequelize, Sequelize) => {
-    const Department = sequelize.define('department', {
+    const statusAssetValue = sequelize.define('specificationValue', {
         id: {
             type: Sequelize.INTEGER,
             primaryKey: true,
             autoIncrement: true
         },
-        name: {
-            type: Sequelize.STRING(50)
+        value: {
+            type: Sequelize.STRING
         }
     })
-
-    return Department
+    return statusAssetValue
 }

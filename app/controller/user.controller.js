@@ -88,7 +88,7 @@ exports.readUsers = (req, res,) => { //read All User
     console.log(params)
     User.findAll({
         where:params,
-        include: [{ all: true, nested: true }]
+        include: [{ all: true, nested: false }]
     }).then(user => {
         response(res, true, 'users retrieved', user)
     }).catch(error => {
@@ -101,7 +101,7 @@ exports.readUser = (req, res) => { //read one data of user
     console.log(params)
     User.findOne({
         where: params,
-        include: [{ all: true, nested: true }]
+        include: [{ all: true, nested: false }]
     }).then(user => {
         response(res, true, 'user retrieved', user)
     }).catch(error => {
