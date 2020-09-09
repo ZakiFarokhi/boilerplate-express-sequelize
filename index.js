@@ -59,6 +59,7 @@ require('./app/router/employee.router')(app)
 require('./app/router/instance.router')(app)
 require('./app/router/company.router')(app)
 require('./app/router/region.router')(app)
+require('./app/router/eventAssets.router')(app)
 
 
 

@@ -17,7 +17,7 @@ exports.createData = (req, res) => {
 exports.readAllData = (req, res) => {
     console.log('retrieve all')
     Data.findAll({
-        //  include: [{ all: true, nested: false }]
+          include: [{ all: true, nested: false }]
     }).then(result => {
         response(res, true, 'category asset retrieve', result)
     }).catch(error => {
