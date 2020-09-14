@@ -26,7 +26,7 @@ exports.readAllData = (req, res) => {
 exports.readData = (req, res) => {
     const params = JSON.parse(req.params.param)
     console.log(params)
-    Data.findOne({
+    Data.findAll({
         where: params,
         include: [{ all: true, nested: false }]
     }).then(result => {

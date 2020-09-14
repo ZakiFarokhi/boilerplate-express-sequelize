@@ -72,17 +72,25 @@ db.specificationValue.belongsTo(db.specification)
 db.category.hasMany(db.specification)
 db.specification.belongsTo(db.category)
 
-db.model.hasMany(db.specificationValueModel)
-db.specificationValueModel.belongsTo(db.model)
+const ValueToModel = sequelize.define('ValueToModel', {
+    id: {
+        type: Sequelize.INTEGER,
+        primaryKey: true,
+        autoIncrement: true,
+    }
+});
+db.model.belongsToMany(db.specificationValue, {through: ValueToModel, foreignKey: 'model_id'})
+db.specificationValue.belongsToMany(db.model, {through: ValueToModel, foreignKey: 'value_id'})
 
-db.specificationValue.hasMany(db.specificationValueModel)
-db.specificationValueModel.belongsTo(db.specificationValue)
-
-db.asset.hasMany(db.specificationValueToAsset)
-db.specificationValueToAsset.belongsTo(db.asset)
-
-db.specificationValue.hasMany(db.specificationValueToAsset)
-db.specificationValueToAsset.belongsTo(db.specificationValue)
+const ValueToAsset = sequelize.define('ValueToAsset', {
+    id: {
+        type: Sequelize.INTEGER,
+        primaryKey: true,
+        autoIncrement: true,
+    }
+});
+db.asset.belongsToMany(db.specificationValue, {through: ValueToAsset, foreignKey: 'asset_id'})
+db.specificationValue.belongsToMany(db.asset, {through: ValueToAsset, foreignKey: 'value_id'})
 
 const roleToPermission = sequelize.define('roleToPermission', {
     id: {
@@ -109,6 +117,9 @@ db.role.belongsToMany(db.site,
     { through: roleToSite, foreignKey: 'role_id' })
 db.site.belongsToMany(db.role,
     { through: roleToSite, foreignKey: 'site_id' })
+
+db.employee.hasMany(db.asset)
+db.asset.belongsTo(db.employee)
 
 module.exports = db
 

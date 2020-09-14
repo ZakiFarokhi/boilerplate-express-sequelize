@@ -5,6 +5,7 @@ const response = require('../middleware/response/responseHandling')
 exports.createData = (req, res) => {
     Data.create({
         name: req.body.name,
+        InstanceId: req.body.InstanceId
     }).then(result => {
         response(res, true, 'category asset created', result)
     }).catch(error => {

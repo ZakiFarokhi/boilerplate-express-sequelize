@@ -14,9 +14,6 @@ module.exports = (sequelize, Sequelize) => {
         purchase_from: {
             type: Sequelize.STRING(100)
         },
-        purchase_cost: {
-            type: Sequelize.STRING(50)
-        },
         purchase_doc: {
             type: Sequelize.STRING
         }

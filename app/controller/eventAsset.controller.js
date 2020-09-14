@@ -1,13 +1,15 @@
 const db = require('../db/db.config')
 const Data = db.eventAsset
 const response = require('../middleware/response/responseHandling')
+const multer = require('multer')
 
 exports.createData = (req, res) => {
     Data.create({
         name: req.body.name,
         description: req.body.description,
         date: req.body.date,
-        document: req.body.document
+        document: req.body.document,
+        assetId: req.body.assetId
     }).then(result => {
         response(res, true, 'category asset created', result)
     }).catch(error => {

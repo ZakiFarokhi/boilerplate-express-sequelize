@@ -7,7 +7,6 @@ exports.createData = (req, res) => {
         purchase_order_number: req.body.purchase_order_number,
         purchase_date: req.body.purchase_date,
         purchase_from: req.body.purchase_from,
-        purchase_cost: req.body.purchase_cost,
         purchase_doc: req.body.purchase_doc
     }).then(result => {
         response(res, true, 'category asset created', result)
@@ -44,7 +43,6 @@ exports.updateData = (req, res) => {
         purchase_order_number: req.body.purchase_order_number,
         purchase_date: req.body.purchase_date,
         purchase_from: req.body.purchase_from,
-        purchase_cost: req.body.purchase_cost,
         purchase_doc: req.body.purchase_doc
     }).then(result => {
         response(res, true, 'category asset updated', result)

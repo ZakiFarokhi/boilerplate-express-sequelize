@@ -36,7 +36,9 @@ module.exports = (sequelize, Sequelize) => {
             type: Sequelize.STRING(50)
         }, isActive: {
             type: Sequelize.BOOLEAN
-        },
+        }, cost: {
+            type: Sequelize.DECIMAL
+        }
     })
     return masterAsset;
 }

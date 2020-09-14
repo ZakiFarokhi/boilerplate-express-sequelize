@@ -18,11 +18,19 @@ exports.createData = (req, res) => {
         instance: req.body.instance,
         company: req.body.company,
         region: req.body.region,        
-        isActive: req.body.isActive
+        isActive: req.body.isActive,
+        cost: req.body.cost,
+        purchaseId:req.body.purchaseId
     }).then(result => {
-        response(res, true, 'category asset created', result)
+        console.log(req.body.specificationValue)
+        result.setSpecificationValues(req.body.specificationValue)
+        .then(resp => {
+            response(res, true, 'Asset Create', resp)
+        }).catch(err => {
+            response(res, false, 'asset not create', err)
+        })
     }).catch(error => {
-        response(res, false, 'cannot create category asset', error)
+        response(res, false, 'cannot create asset', error)
     })
 }
 exports.readAllData = (req, res) => {
@@ -48,14 +56,16 @@ exports.readData = (req, res) => {
     })
 }
 exports.updateData = (req, res) => {
+    console.log(req.params.param)
     const params = JSON.parse(req.params.param)
     console.log(params)
     Data.update({
         status_asset: req.body.status_asset,
-        isActive
+        isActive : req.body.isActive
     }, {where: params}).then(result => {
         response(res, true, 'category asset updated', result)
     }).catch(error => {
+        console.log(error)
         response(res, false, 'category asset not updated', error)
     })
 
