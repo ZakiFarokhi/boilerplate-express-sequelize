@@ -1,5 +1,5 @@
 const db = require('../db/db.config')
-const Data = db.location
+const Data = db.status
 const response = require('../middleware/response/responseHandling')
 
 exports.createData = (req, res) => {
@@ -50,7 +50,7 @@ exports.updateData = (req, res) => {
 exports.deleteData = (req, res) => {
     const params = JSON.parse(req.params.param)
     console.log(params)
-    Data.destroy().then(result => {
+    Data.destroy({where:params}).then(result => {
         response(res, true, 'category asset deleted', result)
     }).catch(error => {
         response(res, false, 'cannot delete category asset', error)

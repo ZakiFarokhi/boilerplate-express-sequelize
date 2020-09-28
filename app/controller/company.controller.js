@@ -5,7 +5,7 @@ const response = require('../middleware/response/responseHandling')
 exports.createData = (req, res) => {
     Data.create({
         name: req.body.name,
-        InstanceId: req.body.InstanceId
+        instanceIdId: req.body.instanceIdId
     }).then(result => {
         response(res, true, 'category asset created', result)
     }).catch(error => {
@@ -39,7 +39,7 @@ exports.updateData = (req, res) => {
     console.log(params)
     Data.update({
         name: req.body.name,
-    }).then(result => {
+    }, {where: params}).then(result => {
         response(res, true, 'category asset updated', result)
     }).catch(error => {
         response(res, false, 'category asset not updated', error)
@@ -49,7 +49,7 @@ exports.updateData = (req, res) => {
 exports.deleteData = (req, res) => {
     const params = JSON.parse(req.params.param)
     console.log(params)
-    Data.destroy().then(result => {
+    Data.destroy({where:params}).then(result => {
         response(res, true, 'category asset deleted', result)
     }).catch(error => {
         response(res, false, 'cannot delete category asset', error)

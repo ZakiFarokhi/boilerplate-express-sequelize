@@ -8,7 +8,9 @@ module.exports = (sequelize, Sequelize) => {
             type: Sequelize.STRING(50)
         }, description: {
             type: Sequelize.STRING
-        }, 
+        }, inActiveAsset: {
+            type: Sequelize.BOOLEAN
+        }
     })
     return statusAsset;
 }

@@ -45,6 +45,45 @@ db.specificationValue = require('../model/specificationValue.model')(sequelize, 
 db.specificationValueModel = require('../model/specificationValueModel.model')(sequelize, Sequelize)
 db.specificationValueToAsset = require('../model/specificationValueToAsset.model')(sequelize, Sequelize)
 
+db.category.hasMany(db.asset)
+db.asset.belongsTo(db.category)
+
+db.brand.hasMany(db.asset)
+db.asset.belongsTo(db.brand)
+
+db.model.hasMany(db.asset)
+db.asset.belongsTo(db.model)
+
+db.site.hasMany(db.asset)
+db.asset.belongsTo(db.site)
+
+db.location.hasMany(db.asset)
+db.asset.belongsTo(db.location)
+
+db.department.hasMany(db.asset)
+db.asset.belongsTo(db.department)
+
+db.instance.hasMany(db.asset)
+db.asset.belongsTo(db.instance)
+
+db.company.hasMany(db.asset)
+db.asset.belongsTo(db.company)
+
+db.region.hasMany(db.asset)
+db.asset.belongsTo(db.region)
+
+db.status.hasMany(db.asset)
+db.asset.belongsTo(db.status)
+
+db.purchase.hasMany(db.asset)
+db.asset.belongsTo(db.purchase)
+
+db.asset.hasMany(db.eventAsset)
+db.eventAsset.belongsTo(db.asset)
+
+db.site.hasMany(db.location)
+db.location.belongsTo(db.site)
+
 db.role.hasMany(db.user)
 db.user.belongsTo(db.role)
 
@@ -59,12 +98,6 @@ db.company.belongsTo(db.instance)
 
 db.company.hasMany(db.region)
 db.region.belongsTo(db.company)
-
-db.purchase.hasMany(db.asset)
-db.asset.belongsTo(db.purchase)
-
-db.asset.hasMany(db.eventAsset)
-db.eventAsset.belongsTo(db.asset)
 
 db.specification.hasMany(db.specificationValue)
 db.specificationValue.belongsTo(db.specification)
@@ -120,6 +153,13 @@ db.site.belongsToMany(db.role,
 
 db.employee.hasMany(db.asset)
 db.asset.belongsTo(db.employee)
+
+db.site.hasMany(db.employee)
+db.employee.belongsTo(db.site)
+db.location.hasMany(db.employee)
+db.employee.belongsTo(db.location)
+db.department.hasMany(db.employee)
+db.employee.belongsTo(db.department)
 
 module.exports = db
 

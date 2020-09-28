@@ -40,7 +40,7 @@ exports.updateData = (req, res) => {
     Data.update({
         name: req.body.name,
         description: req.body.description,
-    }).then(result => {
+    }, {where: params}).then(result => {
         response(res, true, 'category asset updated', result)
     }).catch(error => {
         response(res, false, 'category asset not updated', error)

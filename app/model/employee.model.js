@@ -23,12 +23,6 @@ module.exports = (sequelize, Sequelize) => {
             type: Sequelize.STRING(40)
         }, isActive: {
             type: Sequelize.INTEGER
-        }, site: {
-            type: Sequelize.STRING(50)
-        }, location: {
-            type: Sequelize.STRING(50)
-        }, department: {
-            type: Sequelize.STRING(50)
         }, status: {
             type: Sequelize.STRING(50)
         }

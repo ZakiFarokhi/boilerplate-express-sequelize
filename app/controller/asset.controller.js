@@ -6,26 +6,26 @@ exports.createData = (req, res) => {
     Data.create({
         tag_id: req.body.tag_id,
         description:req.body.description,
-        category: req.body.category,
-        brand: req.body.brand,
-        model: req.body.model,
+        categoryId: req.body.categoryId,
+        brandId: req.body.brandId,
+        modelId: req.body.modelId,
         serial_no: req.body.serial_no,
-        site: req.body.site,
-        location: req.body.location,
-        department: req.body.department,
+        siteId: req.body.siteId,
+        locationId: req.body.locationId,
+        departmentId: req.body.departmentId,
         lastOpname: req.body.lastOpname,
-        status_asset: req.body.status_asset,
-        instance: req.body.instance,
-        company: req.body.company,
-        region: req.body.region,        
+        statusId: req.body.statusId,
+        instanceId: req.body.instanceId,
+        companyId: req.body.companyId,
+        regionId: req.body.regionId,        
         isActive: req.body.isActive,
         cost: req.body.cost,
         purchaseId:req.body.purchaseId
     }).then(result => {
         console.log(req.body.specificationValue)
         result.setSpecificationValues(req.body.specificationValue)
-        .then(resp => {
-            response(res, true, 'Asset Create', resp)
+        .then(() => {
+            response(res, true, 'Asset Create', result)
         }).catch(err => {
             response(res, false, 'asset not create', err)
         })
@@ -61,6 +61,7 @@ exports.updateData = (req, res) => {
     console.log(params)
     Data.update({
         status_asset: req.body.status_asset,
+        employeeId : req.body.employeeId,
         isActive : req.body.isActive
     }, {where: params}).then(result => {
         response(res, true, 'category asset updated', result)
@@ -73,7 +74,7 @@ exports.updateData = (req, res) => {
 exports.deleteData = (req, res) => {
     const params = JSON.parse(req.params.param)
     console.log(params)
-    Data.destroy().then(result => {
+    Data.destroy({where:params}).then(result => {
         response(res, true, 'category asset deleted', result)
     }).catch(error => {
         response(res, false, 'cannot delete category asset', error)

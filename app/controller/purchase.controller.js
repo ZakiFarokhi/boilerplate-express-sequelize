@@ -44,7 +44,7 @@ exports.updateData = (req, res) => {
         purchase_date: req.body.purchase_date,
         purchase_from: req.body.purchase_from,
         purchase_doc: req.body.purchase_doc
-    }).then(result => {
+    }, {where: params}).then(result => {
         response(res, true, 'category asset updated', result)
     }).catch(error => {
         response(res, false, 'category asset not updated', error)
@@ -54,7 +54,7 @@ exports.updateData = (req, res) => {
 exports.deleteData = (req, res) => {
     const params = JSON.parse(req.params.param)
     console.log(params)
-    Data.destroy().then(result => {
+    Data.destroy({where:params}).then(result => {
         response(res, true, 'category asset deleted', result)
     }).catch(error => {
         response(res, false, 'cannot delete category asset', error)

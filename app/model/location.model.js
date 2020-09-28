@@ -7,9 +7,6 @@ module.exports = (sequelize, Sequelize) => {
         },
         name: {
             type: Sequelize.STRING(50)
-        },
-        site: {
-            type: Sequelize.STRING(50)
         }
     })
     return Location
